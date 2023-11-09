@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Header = ({title}) =>  <h3>{title}</h3>
+const Header = ({title}) => <h3>{title}</h3>
 
 const Button = ({handleClick, text}) => {
   return (
@@ -10,8 +10,8 @@ const Button = ({handleClick, text}) => {
 
 const Statistics = ({good, bad, neutral}) => {
   const total = good + bad + neutral
-  const average = (good*1 + neutral*0 + bad*(-1))/total
-  const postitive = `${(good/total)*100}%`
+  const average = ((good - bad) / total)
+  const positive = `${(good/total)*100}%`
 
   if (total === 0) {
     return (
@@ -29,7 +29,7 @@ const Statistics = ({good, bad, neutral}) => {
         <StatisticsLine text={'Bad:'} value={bad} />
         <StatisticsLine text={'Total votes:'} value={total} />
         <StatisticsLine text={'Average'} value={average} />
-        <StatisticsLine text={'Postitive'} value={postitive} />
+        <StatisticsLine text={'Postitive'} value={positive} />
       </tbody>
     </table>
   )
