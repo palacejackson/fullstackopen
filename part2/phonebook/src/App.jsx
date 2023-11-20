@@ -1,10 +1,7 @@
-import { useLayoutEffect, useState } from 'react'
-
-const Person = ({ name, number }) => {
-  return (
-    <div>{name} {number}</div>
-  )
-}
+import { useState } from 'react'
+import Persons from './components/persons'
+import Form from './components/form'
+import Search from './components/search'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -17,7 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setSearchValue] = useState('')
 
-  const addName = (e) => {
+  const addPerson = (e) => {
     e.preventDefault()
     const personObject =  {
       name: newName,
@@ -53,38 +50,27 @@ const App = () => {
     return persons.filter(person => person.name.includes(searchValue))
   }
 
+  const filteredPersons = searchPersons()
+
   return (
     <div>
       <h2>Phonebook</h2>
       <div>Search:
-        <input
+        <Search
           value={searchValue}
           onChange={handleSearch}
         />
       </div>
       <h2>Add new contact</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input
-            value={newName}
-            onChange={handleAddName} />
-        </div>
-        <div>
-          number: <input
-            value={newNumber}
-            onChange={handleAddNumber}
-            />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+        <Form
+          submit={addPerson}
+          valueName={newName}
+          onChangeName={handleAddName}
+          valueNumber={newNumber}
+          onChangeNumber={handleAddNumber}
+        />
       <h2>Numbers</h2>
-      <>
-        {searchPersons().map(person =>
-          <Person key={person.id} name={person.name} number={person.number} />
-        )}
-       </>
+        <Persons filtered={filteredPersons} />
     </div>
   )
 }
